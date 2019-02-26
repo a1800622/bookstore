@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import gp.swd20.bookstore.domain.Book;
 import gp.swd20.bookstore.domain.BookRepository;
+import gp.swd20.bookstore.domain.CategoryRepository;
+//IMPORT domain categoryrepository!!!!!
 
 @Controller
 public class BookController {
 	@Autowired
 	private BookRepository repository;
+	
+	@Autowired
+	private CategoryRepository drepository;
 	
 	// http://localhost:8080/booklist
 	@RequestMapping(value="booklist")
@@ -27,6 +32,7 @@ public class BookController {
 	@RequestMapping(value="/add")
 	public String addBook(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("categories", drepository.findAll());
 		return "addbook"; //addbook.html
 	}
 	
