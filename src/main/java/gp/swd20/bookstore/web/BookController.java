@@ -26,6 +26,11 @@ public class BookController {
 	@Autowired
 	private CategoryRepository drepository;
 	
+	@RequestMapping(value="/login")
+	public String login() {
+		return "login";
+	}
+	
 	// http://localhost:8080/booklist
 	@RequestMapping(value="booklist")
 	public String bookList(Model model) {
@@ -33,19 +38,19 @@ public class BookController {
 		return "booklist"; //booklist.html
 	}
 	
-	//REST kaikki kirjat books
+	//REST GET kaikki kirjat books
 	@RequestMapping(value="/books", method = RequestMethod.GET)
 	public @ResponseBody List<Book> bookListRest(){
 		return (List<Book>) repository.findAll();
 	} 
 	
-	//REST kirja id:llä
+	//REST GET kirja id:llä
 	@RequestMapping(value="/book/{id}", method = RequestMethod.GET)
 	public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long bookId){
 		return repository.findById(bookId);
 	}
 	
-	//REST lisää kirja
+	//REST POST lisää kirja
 	@RequestMapping(value="books", method = RequestMethod.POST)
 	public @ResponseBody Book addNewBookRest(@RequestBody Book book) {
 		return repository.save(book);
