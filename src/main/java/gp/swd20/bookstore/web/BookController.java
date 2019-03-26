@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import gp.swd20.bookstore.domain.Book;
 import gp.swd20.bookstore.domain.BookRepository;
 import gp.swd20.bookstore.domain.CategoryRepository;
-//IMPORT domain categoryrepository!!!!!
+
 
 @Controller
 public class BookController {
@@ -24,7 +24,7 @@ public class BookController {
 	private BookRepository repository;
 	
 	@Autowired
-	private CategoryRepository drepository;
+	private CategoryRepository catrepository;
 	
 	@RequestMapping(value="/login")
 	public String login() {
@@ -61,7 +61,7 @@ public class BookController {
 	@RequestMapping(value="/add")
 	public String addBook(Model model) {
 		model.addAttribute("book", new Book());
-		model.addAttribute("categories", drepository.findAll());
+		model.addAttribute("categories", catrepository.findAll());
 		return "addbook"; //addbook.html
 	}
 	
@@ -83,7 +83,7 @@ public class BookController {
 	@RequestMapping(value="/edit/{id}")
 	public String addBook(@PathVariable("id") Long bookId, Model model) {
 		model.addAttribute("book", repository.findById(bookId));
-		//model.addAttribute("books", repository.findAll());
+		model.addAttribute("categories", catrepository.findAll());
 		return "editbook";
 	}
 }

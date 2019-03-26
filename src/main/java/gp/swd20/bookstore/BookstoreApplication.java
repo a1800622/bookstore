@@ -12,6 +12,8 @@ import gp.swd20.bookstore.domain.Book;
 import gp.swd20.bookstore.domain.BookRepository;
 import gp.swd20.bookstore.domain.Category;
 import gp.swd20.bookstore.domain.CategoryRepository;
+import gp.swd20.bookstore.domain.User;
+import gp.swd20.bookstore.domain.UserRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -21,19 +23,23 @@ public class BookstoreApplication {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository srepository, CategoryRepository drepository) {
+	public CommandLineRunner bookDemo(BookRepository bkrepository, CategoryRepository catrepository, UserRepository urepository) {
 		return (args) -> {
 			log.info("Saving some books");
-			drepository.save(new Category("Fantacy"));
-			drepository.save(new Category("SciFi"));
-			drepository.save(new Category("Classic"));
+			catrepository.save(new Category("Fantacy"));
+			catrepository.save(new Category("SciFi"));
+			catrepository.save(new Category("Classic"));
 			
+			bkrepository.save(new Book("The complete Robot","Isaac Asimov",1982,"0-385-17724-0",20, catrepository.findByName("SciFi").get(0)));
+			bkrepository.save(new Book("Lord of the flies","William Golding",1954,"0-571-05686-5",25, catrepository.findByName("Classic").get(0)));
 			
-			srepository.save(new Book("The complete Robot","Isaac Asimov",1982,"0-385-17724-0",20, drepository.findByName("SciFi").get(0)));
-			srepository.save(new Book("Lord of the flies","William Golding",1954,"0-571-05686-5",25, drepository.findByName("Classic").get(0)));
+			User user1 = new User("user", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "USER");
+			User user2 = new User("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "ADMIN");
+			urepository.save(user1);
+			urepository.save(user2);
 			
 			log.info("Fetching all of the books");
-			for(Book book : srepository.findAll()) {
+			for(Book book : bkrepository.findAll()) {
 				log.info(book.toString());
 			}
 		};
